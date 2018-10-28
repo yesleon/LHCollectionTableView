@@ -32,6 +32,13 @@ public protocol LHCollectionTableViewDelegate: AnyObject {
     func storyboardView(_ storyboardView: LHCollectionTableView, performAction action: Selector, forItemAt indexPath: IndexPath)
 }
 
+public extension LHCollectionTableViewDelegate {
+    func storyboardView(_ storyboardView: LHCollectionTableView, canPerformAction action: Selector, forSection section: Int) -> Bool { return false }
+    func storyboardView(_ storyboardView: LHCollectionTableView, performAction action: Selector, forSection section: Int) { }
+    func storyboardView(_ storyboardView: LHCollectionTableView, canPerformAction action: Selector, forItemAt indexPath: IndexPath) -> Bool { return false }
+    func storyboardView(_ storyboardView: LHCollectionTableView, performAction action: Selector, forItemAt indexPath: IndexPath) { }
+}
+
 open class LHCollectionTableView: UIView {
 
     @IBOutlet private weak var tableView: UITableView!
