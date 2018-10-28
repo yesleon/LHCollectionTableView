@@ -18,6 +18,13 @@ public protocol LHCollectionTableViewDataSource: AnyObject {
     func storyboardView(_ storyboardView: LHCollectionTableView, moveItemAt fromIndexPath: IndexPath, toIndexPath: IndexPath)
 }
 
+public extension LHCollectionTableViewDataSource {
+    func numberOfSections(in storyboardView: LHCollectionTableView) -> Int { return 1 }
+    func storyboardView(_ storyboardView: LHCollectionTableView, canMoveSection section: Int) -> Bool { return false }
+    func storyboardView(_ storyboardView: LHCollectionTableView, moveSection fromSection: Int, toSection: Int) { }
+    func storyboardView(_ storyboardView: LHCollectionTableView, moveItemAt fromIndexPath: IndexPath, toIndexPath: IndexPath) { }
+}
+
 public protocol LHCollectionTableViewDelegate: AnyObject {
     func storyboardView(_ storyboardView: LHCollectionTableView, canPerformAction action: Selector, forSection section: Int) -> Bool
     func storyboardView(_ storyboardView: LHCollectionTableView, performAction action: Selector, forSection section: Int)
