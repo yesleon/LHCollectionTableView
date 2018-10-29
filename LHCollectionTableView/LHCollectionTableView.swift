@@ -122,7 +122,7 @@ open class LHCollectionTableView: UIView {
     // MARK: Item
     
     open func indexPathForItem(at location: CGPoint) -> IndexPath? {
-        guard let sectionCellIndexPath = tableView.indexPathForRow(at: location) else { return nil }
+        guard let sectionCellIndexPath = tableView.indexPathForRow(at: convert(location, to: tableView)) else { return nil }
         guard let sectionCell = tableView.cellForRow(at: sectionCellIndexPath) as? LHCollectionTableViewSectionCell else { return nil }
         guard let itemIndexPath = sectionCell.indexPathForItem(at: convert(location, to: sectionCell)) else { return nil }
         return IndexPath(item: itemIndexPath.item, section: sectionCellIndexPath.row)
