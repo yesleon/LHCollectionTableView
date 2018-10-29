@@ -15,6 +15,7 @@ public protocol LHCollectionTableViewDataSource: AnyObject {
     func storyboardView(_ storyboardView: LHCollectionTableView, configure sectionCell: LHCollectionTableViewSectionCell, forSection section: Int)
     func storyboardView(_ storyboardView: LHCollectionTableView, canMoveSection section: Int) -> Bool
     func storyboardView(_ storyboardView: LHCollectionTableView, moveSection fromSection: Int, toSection: Int)
+    func storyboardView(_ storyboardView: LHCollectionTableView, canMoveItemAt indexPath: IndexPath) -> Bool
     func storyboardView(_ storyboardView: LHCollectionTableView, moveItemAt fromIndexPath: IndexPath, toIndexPath: IndexPath)
 }
 
@@ -22,6 +23,7 @@ public extension LHCollectionTableViewDataSource {
     func numberOfSections(in storyboardView: LHCollectionTableView) -> Int { return 1 }
     func storyboardView(_ storyboardView: LHCollectionTableView, canMoveSection section: Int) -> Bool { return false }
     func storyboardView(_ storyboardView: LHCollectionTableView, moveSection fromSection: Int, toSection: Int) { }
+    func storyboardView(_ storyboardView: LHCollectionTableView, canMoveItemAt indexPath: IndexPath) -> Bool { return false }
     func storyboardView(_ storyboardView: LHCollectionTableView, moveItemAt fromIndexPath: IndexPath, toIndexPath: IndexPath) { }
 }
 
@@ -287,6 +289,11 @@ extension LHCollectionTableView: StoryboardViewSectionCellDataSource {
             dataSource?.storyboardView(self, configure: cell, forItemAt: IndexPath(item: indexPath.item, section: section))
         }
         return cell
+    }
+    
+    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, canMoveItemAt indexPath: IndexPath) -> Bool {
+        guard let section = self.section(for: sectionCell) else { return false }
+        return dataSource?.storyboardView(self, canMoveItemAt: IndexPath(item: indexPath.item, section: section)) ?? false
     }
     
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, moveItemAt fromIndexPath: IndexPath, toIndexPath: IndexPath) {

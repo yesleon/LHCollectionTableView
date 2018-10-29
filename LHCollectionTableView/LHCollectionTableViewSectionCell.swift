@@ -11,6 +11,7 @@ import UIKit
 protocol StoryboardViewSectionCellDataSource: AnyObject {
     func numberOfItems(for sectionCell: LHCollectionTableViewSectionCell) -> Int
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, cellForItemAt indexPath: IndexPath) -> LHCollectionTableViewCell
+    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, canMoveItemAt indexPath: IndexPath) -> Bool
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, moveItemAt fromIndexPath: IndexPath, toIndexPath: IndexPath)
 }
 
@@ -123,6 +124,7 @@ extension LHCollectionTableViewSectionCell: UICollectionViewDelegate {
 extension LHCollectionTableViewSectionCell: UICollectionViewDragDelegate {
     
     public func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        guard dataSource?.sectionCell(self, canMoveItemAt: indexPath) == true else { return [] }
         if let section = (superview as? UITableView)?.indexPath(for: self)?.row {
             let item = UIDragItem(itemProvider: NSItemProvider())
             item.localObject = IndexPath(item: indexPath.item, section: section)
