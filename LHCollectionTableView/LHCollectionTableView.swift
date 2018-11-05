@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LHConvenientMethods
 
 public protocol LHCollectionTableViewDataSource: AnyObject {
     func numberOfSections(in storyboardView: LHCollectionTableView) -> Int
@@ -82,11 +83,11 @@ open class LHCollectionTableView: UIView {
         tableView.dragDelegate = self
         tableView.dropDelegate = self
         tableView.dragInteractionEnabled = true
-        registerKeyboardEvents()
+        tableView.setHandlesKeyboard(true)
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        tableView.setHandlesKeyboard(false)
     }
     
     open func reloadData() {
@@ -174,28 +175,6 @@ open class LHCollectionTableView: UIView {
         scrollToSection(indexPath.section, animated: false)
         guard let sectionCell = self.sectionCell(at: indexPath.section) else { return }
         sectionCell.scrollToItem(at: IndexPath(item: indexPath.item, section: 0), animated: animated)
-    }
-    
-    // MARK: Keyboard Handling
-    
-    private func registerKeyboardEvents() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown), name: UIWindow.keyboardDidShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden), name: UIWindow.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc private func keyboardWasShown(notification: Notification) {
-        guard let window = window else { return }
-        let viewFrame = convert(bounds, to: window)
-        let kbFrame = notification.userInfo![UIWindow.keyboardFrameEndUserInfoKey] as! CGRect
-        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: viewFrame.maxY - kbFrame.origin.y, right: 0)
-        tableView.contentInset = contentInsets
-        tableView.scrollIndicatorInsets = contentInsets
-    }
-    
-    @objc private func keyboardWillBeHidden(notification: Notification) {
-        let contentInsets = UIEdgeInsets.zero
-        tableView.contentInset = contentInsets
-        tableView.scrollIndicatorInsets = contentInsets
     }
 
 }
