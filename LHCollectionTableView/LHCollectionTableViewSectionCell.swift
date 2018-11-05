@@ -155,11 +155,16 @@ extension LHCollectionTableViewSectionCell: UICollectionViewDropDelegate {
     
     public func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
         guard let dropItem = coordinator.items.first else { return }
-        var destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: collectionView.numberOfItems(inSection: 0), section: 0)
+        let itemCount = collectionView.numberOfItems(inSection: 0)
+        var destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: itemCount, section: 0)
         guard let section = (superview as? UITableView)?.indexPath(for: self)?.row else { return }
         destinationIndexPath.section = section
         let item = dropItem.dragItem
         if let sourceIndexPath = item.localObject as? IndexPath {
+            if sourceIndexPath.section == destinationIndexPath.section,
+                destinationIndexPath.item == itemCount {
+                destinationIndexPath.item -= 1
+            }
             dataSource?.sectionCell(self, moveItemAt: sourceIndexPath, toIndexPath: destinationIndexPath)
             destinationIndexPath.section = 0
             coordinator.drop(item, toItemAt: destinationIndexPath)
