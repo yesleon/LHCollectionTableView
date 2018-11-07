@@ -10,36 +10,36 @@ import UIKit
 import LHConvenientMethods
 
 public protocol LHCollectionTableViewDataSource: AnyObject {
-    func numberOfSections(in storyboardView: LHCollectionTableView) -> Int
-    func storyboardView(_ storyboardView: LHCollectionTableView, numberOfItemsInSection section: Int) -> Int
-    func storyboardView(_ storyboardView: LHCollectionTableView, configure cell: LHCollectionTableViewCell, forItemAt indexPath: IndexPath)
-    func storyboardView(_ storyboardView: LHCollectionTableView, configure sectionCell: LHCollectionTableViewSectionCell, forSection section: Int)
-    func storyboardView(_ storyboardView: LHCollectionTableView, canMoveSection section: Int) -> Bool
-    func storyboardView(_ storyboardView: LHCollectionTableView, moveSection fromSection: Int, toSection: Int)
-    func storyboardView(_ storyboardView: LHCollectionTableView, canMoveItemAt indexPath: IndexPath) -> Bool
-    func storyboardView(_ storyboardView: LHCollectionTableView, moveItemAt fromIndexPath: IndexPath, toIndexPath: IndexPath)
+    func numberOfSections(in collectionTableView: LHCollectionTableView) -> Int
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, numberOfItemsInSection section: Int) -> Int
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, configure cell: LHCollectionTableViewCell, forItemAt indexPath: IndexPath)
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, configure sectionCell: LHCollectionTableViewSectionCell, forSection section: Int)
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, canMoveSection section: Int) -> Bool
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, moveSection fromSection: Int, toSection: Int)
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, canMoveItemAt indexPath: IndexPath) -> Bool
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, moveItemAt fromIndexPath: IndexPath, toIndexPath: IndexPath)
 }
 
 public extension LHCollectionTableViewDataSource {
-    func numberOfSections(in storyboardView: LHCollectionTableView) -> Int { return 1 }
-    func storyboardView(_ storyboardView: LHCollectionTableView, canMoveSection section: Int) -> Bool { return false }
-    func storyboardView(_ storyboardView: LHCollectionTableView, moveSection fromSection: Int, toSection: Int) { }
-    func storyboardView(_ storyboardView: LHCollectionTableView, canMoveItemAt indexPath: IndexPath) -> Bool { return false }
-    func storyboardView(_ storyboardView: LHCollectionTableView, moveItemAt fromIndexPath: IndexPath, toIndexPath: IndexPath) { }
+    func numberOfSections(in collectionTableView: LHCollectionTableView) -> Int { return 1 }
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, canMoveSection section: Int) -> Bool { return false }
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, moveSection fromSection: Int, toSection: Int) { }
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, canMoveItemAt indexPath: IndexPath) -> Bool { return false }
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, moveItemAt fromIndexPath: IndexPath, toIndexPath: IndexPath) { }
 }
 
 public protocol LHCollectionTableViewDelegate: AnyObject {
-    func storyboardView(_ storyboardView: LHCollectionTableView, canPerformAction action: Selector, forSection section: Int) -> Bool
-    func storyboardView(_ storyboardView: LHCollectionTableView, performAction action: Selector, forSection section: Int)
-    func storyboardView(_ storyboardView: LHCollectionTableView, canPerformAction action: Selector, forItemAt indexPath: IndexPath) -> Bool
-    func storyboardView(_ storyboardView: LHCollectionTableView, performAction action: Selector, forItemAt indexPath: IndexPath)
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, canPerformAction action: Selector, forSection section: Int) -> Bool
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, performAction action: Selector, forSection section: Int)
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, canPerformAction action: Selector, forItemAt indexPath: IndexPath) -> Bool
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, performAction action: Selector, forItemAt indexPath: IndexPath)
 }
 
 public extension LHCollectionTableViewDelegate {
-    func storyboardView(_ storyboardView: LHCollectionTableView, canPerformAction action: Selector, forSection section: Int) -> Bool { return false }
-    func storyboardView(_ storyboardView: LHCollectionTableView, performAction action: Selector, forSection section: Int) { }
-    func storyboardView(_ storyboardView: LHCollectionTableView, canPerformAction action: Selector, forItemAt indexPath: IndexPath) -> Bool { return false }
-    func storyboardView(_ storyboardView: LHCollectionTableView, performAction action: Selector, forItemAt indexPath: IndexPath) { }
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, canPerformAction action: Selector, forSection section: Int) -> Bool { return false }
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, performAction action: Selector, forSection section: Int) { }
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, canPerformAction action: Selector, forItemAt indexPath: IndexPath) -> Bool { return false }
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, performAction action: Selector, forItemAt indexPath: IndexPath) { }
 }
 
 open class LHCollectionTableView: UIView {
@@ -195,16 +195,16 @@ extension LHCollectionTableView: UITableViewDataSource {
         cell.dataSource = self
         cell.delegate = self
         DispatchQueue.main.async(execute: cell.reloadData)
-        dataSource?.storyboardView(self, configure: cell, forSection: indexPath.row)
+        dataSource?.collectionTableView(self, configure: cell, forSection: indexPath.row)
         return cell
     }
     
     open func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return dataSource?.storyboardView(self, canMoveSection: indexPath.row) ?? false
+        return dataSource?.collectionTableView(self, canMoveSection: indexPath.row) ?? false
     }
     
     open func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        dataSource?.storyboardView(self, moveSection: sourceIndexPath.row, toSection: destinationIndexPath.row)
+        dataSource?.collectionTableView(self, moveSection: sourceIndexPath.row, toSection: destinationIndexPath.row)
     }
 }
 
@@ -227,11 +227,11 @@ extension LHCollectionTableView: UITableViewDelegate {
     }
     
     open func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return delegate?.storyboardView(self, canPerformAction: action, forSection: indexPath.row) ?? false
+        return delegate?.collectionTableView(self, canPerformAction: action, forSection: indexPath.row) ?? false
     }
     
     open func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
-        delegate?.storyboardView(self, performAction: action, forSection: indexPath.row)
+        delegate?.collectionTableView(self, performAction: action, forSection: indexPath.row)
     }
     
 }
@@ -259,24 +259,24 @@ extension LHCollectionTableView: StoryboardViewSectionCellDataSource {
     
     func numberOfItems(for sectionCell: LHCollectionTableViewSectionCell) -> Int {
         guard let section = self.section(for: sectionCell) else { return 0 }
-        return dataSource?.storyboardView(self, numberOfItemsInSection: section) ?? 0
+        return dataSource?.collectionTableView(self, numberOfItemsInSection: section) ?? 0
     }
     
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, cellForItemAt indexPath: IndexPath) -> LHCollectionTableViewCell {
         let cell = sectionCell.dequeueReusableCell(withReuseIdentifier: "Shot Cell", for: indexPath)
         if let section = self.section(for: sectionCell) {
-            dataSource?.storyboardView(self, configure: cell, forItemAt: IndexPath(item: indexPath.item, section: section))
+            dataSource?.collectionTableView(self, configure: cell, forItemAt: IndexPath(item: indexPath.item, section: section))
         }
         return cell
     }
     
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, canMoveItemAt indexPath: IndexPath) -> Bool {
         guard let section = self.section(for: sectionCell) else { return false }
-        return dataSource?.storyboardView(self, canMoveItemAt: IndexPath(item: indexPath.item, section: section)) ?? false
+        return dataSource?.collectionTableView(self, canMoveItemAt: IndexPath(item: indexPath.item, section: section)) ?? false
     }
     
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, moveItemAt fromIndexPath: IndexPath, toIndexPath: IndexPath) {
-        dataSource?.storyboardView(self, moveItemAt: fromIndexPath, toIndexPath: toIndexPath)
+        dataSource?.collectionTableView(self, moveItemAt: fromIndexPath, toIndexPath: toIndexPath)
         moveItem(at: fromIndexPath, to: toIndexPath)
     }
     
@@ -286,12 +286,12 @@ extension LHCollectionTableView: StoryboardViewSectionCellDelegate {
     
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, canPerformAction action: Selector, forItemAt indexPath: IndexPath) -> Bool {
         guard let section = self.section(for: sectionCell) else { return false }
-        return delegate?.storyboardView(self, canPerformAction: action, forItemAt: IndexPath(item: indexPath.item, section: section)) ?? false
+        return delegate?.collectionTableView(self, canPerformAction: action, forItemAt: IndexPath(item: indexPath.item, section: section)) ?? false
     }
     
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, performAction action: Selector, forItemAt indexPath: IndexPath) {
         guard let section = self.section(for: sectionCell) else { return }
-        delegate?.storyboardView(self, performAction: action, forItemAt: IndexPath(item: indexPath.item, section: section))
+        delegate?.collectionTableView(self, performAction: action, forItemAt: IndexPath(item: indexPath.item, section: section))
     }
     
 }
