@@ -44,12 +44,6 @@ public extension LHCollectionTableViewDelegate {
 }
 
 open class LHCollectionTableView: UIView {
-    
-    enum UserInterfaceStyle {
-        case dark, light
-    }
-    
-    var userInterfaceStyle: UserInterfaceStyle = .light
 
     @IBOutlet private weak var tableView: UITableView!
     private var cellContentOffsets: [IndexPath : CGPoint] = [:]
@@ -82,8 +76,6 @@ open class LHCollectionTableView: UIView {
             }
         }
     }
-    
-//    var userInterfaceStyle
     
     override open func awakeFromNib() {
         super.awakeFromNib()

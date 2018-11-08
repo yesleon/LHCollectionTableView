@@ -17,6 +17,7 @@
 /* Begin PBXFileReference section */
 		710F8D0F218305AF00E4C022 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		713047C7219099E80066F7B1 /* LHConvenientMethods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LHConvenientMethods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		713B0E72219439DD001B7025 /* LHColorSet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LHColorSet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		716FF01D2181F708000FB60F /* LHCollectionTableView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LHCollectionTableView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		716FF0202181F708000FB60F /* LHCollectionTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LHCollectionTableView.h; sourceTree = "<group>"; };
 		716FF0212181F708000FB60F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -40,6 +41,7 @@
 		713047C6219099E80066F7B1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				713B0E72219439DD001B7025 /* LHColorSet.framework */,
 				713047C7219099E80066F7B1 /* LHConvenientMethods.framework */,
 			);
 			name = Frameworks;
