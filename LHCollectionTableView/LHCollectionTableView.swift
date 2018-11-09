@@ -119,7 +119,7 @@ open class LHCollectionTableView: UIView {
     }
     
     open func insertItem(at indexPath: IndexPath) {
-        guard let sectionCell = self.sectionCell(at: indexPath.section) else { fatalError("No such section.") }
+        guard let sectionCell = self.sectionCell(at: indexPath.section) else { return }
         sectionCell.insertItems(at: [IndexPath(item: indexPath.item, section: 0)])
     }
     
@@ -136,7 +136,7 @@ open class LHCollectionTableView: UIView {
     }
     
     open func deleteItem(at indexPath: IndexPath) {
-        guard let sectionCell = self.sectionCell(at: indexPath.section) else { fatalError("No such section.") }
+        guard let sectionCell = self.sectionCell(at: indexPath.section) else { return }
         sectionCell.deleteItems(at: [IndexPath(item: indexPath.item, section: 0)])
     }
     
