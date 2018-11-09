@@ -17,16 +17,12 @@ public protocol LHCollectionTableViewDataSource: AnyObject {
     func collectionTableView(_ collectionTableView: LHCollectionTableView, configure sectionCell: LHCollectionTableViewSectionCell, forSection section: Int)
     func collectionTableView(_ collectionTableView: LHCollectionTableView, canMoveSection section: Int) -> Bool
     func collectionTableView(_ collectionTableView: LHCollectionTableView, moveSection fromSection: Int, toSection: Int)
-    func collectionTableView(_ collectionTableView: LHCollectionTableView, canMoveItemAt indexPath: IndexPath) -> Bool
-    func collectionTableView(_ collectionTableView: LHCollectionTableView, moveItemAt fromIndexPath: IndexPath, toIndexPath: IndexPath)
 }
 
 public extension LHCollectionTableViewDataSource {
     func numberOfSections(in collectionTableView: LHCollectionTableView) -> Int { return 1 }
     func collectionTableView(_ collectionTableView: LHCollectionTableView, canMoveSection section: Int) -> Bool { return false }
     func collectionTableView(_ collectionTableView: LHCollectionTableView, moveSection fromSection: Int, toSection: Int) { }
-    func collectionTableView(_ collectionTableView: LHCollectionTableView, canMoveItemAt indexPath: IndexPath) -> Bool { return false }
-    func collectionTableView(_ collectionTableView: LHCollectionTableView, moveItemAt fromIndexPath: IndexPath, toIndexPath: IndexPath) { }
 }
 
 
@@ -43,6 +39,8 @@ extension LHCollectionTableView: UITableViewDataSource {
         
         cell.dataSource = self
         cell.delegate = self
+        cell.dragDelegate = self
+        cell.dropDelegate = self
         DispatchQueue.main.async(execute: cell.reloadData)
         dataSource?.collectionTableView(self, configure: cell, forSection: indexPath.row)
         return cell
@@ -73,16 +71,6 @@ extension LHCollectionTableView: StoryboardViewSectionCellDataSource {
             dataSource?.collectionTableView(self, configure: cell, forItemAt: IndexPath(item: indexPath.item, section: section))
         }
         return cell
-    }
-    
-    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, canMoveItemAt indexPath: IndexPath) -> Bool {
-        guard let section = self.section(for: sectionCell) else { return false }
-        return dataSource?.collectionTableView(self, canMoveItemAt: IndexPath(item: indexPath.item, section: section)) ?? false
-    }
-    
-    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, moveItemAt fromIndexPath: IndexPath, toIndexPath: IndexPath) {
-        dataSource?.collectionTableView(self, moveItemAt: fromIndexPath, toIndexPath: toIndexPath)
-        moveItem(at: fromIndexPath, to: toIndexPath)
     }
     
 }

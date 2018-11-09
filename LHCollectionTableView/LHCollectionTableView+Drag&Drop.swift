@@ -8,12 +8,26 @@
 
 import Foundation
 
+public protocol LHCollectionTableViewDragDelegate: AnyObject {
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem]
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters?
+}
 
-extension LHCollectionTableView: UITableViewDragDelegate, UITableViewDropDelegate {
+public protocol LHCollectionTableViewDropDelegate: AnyObject {
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> LHCollectionTableViewDropProposal
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, performDropWith coordinator: LHCollectionTableViewDropCoordinator)
+}
+
+
+extension LHCollectionTableView: UITableViewDragDelegate {
     
     open func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         return []
     }
+    
+}
+
+extension LHCollectionTableView: UITableViewDropDelegate {
     
     open func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
         if tableView.hasActiveDrag {
@@ -23,5 +37,40 @@ extension LHCollectionTableView: UITableViewDragDelegate, UITableViewDropDelegat
     }
     
     open func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) { }
+    
+}
+
+extension LHCollectionTableView: LHCollectionTableViewSectionCellDragDelegate {
+    
+    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        guard let section = self.section(for: sectionCell) else { return [] }
+        let indexPath = IndexPath(item: indexPath.item, section: section)
+        return dragDelegate?.collectionTableView(self, itemsForBeginning: session, at: indexPath) ?? []
+    }
+    
+    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters? {
+        guard let section = self.section(for: sectionCell) else { return nil }
+        let indexPath = IndexPath(item: indexPath.item, section: section)
+        return dragDelegate?.collectionTableView(self, dragPreviewParametersForItemAt: indexPath)
+    }
+    
+}
+
+extension LHCollectionTableView: LHCollectionTableViewSectionCellDropDelegate {
+    
+    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> LHCollectionTableViewDropProposal {
+        guard let section = self.section(for: sectionCell) else { return LHCollectionTableViewDropProposal(operation: .cancel) }
+        var indexPath = destinationIndexPath
+        indexPath?.section = section
+        return dropDelegate?.collectionTableView(self, dropSessionDidUpdate: session, withDestinationIndexPath: destinationIndexPath) ?? LHCollectionTableViewDropProposal(operation: .cancel)
+    }
+    
+    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, performDropWith coordinator: LHCollectionTableViewDropCoordinator) {
+        guard let section = self.section(for: sectionCell) else { return }
+        guard let itemCount = dataSource?.collectionTableView(self, numberOfItemsInSection: section) else { return }
+        
+        let coordinator = CollectionTableViewDropCoordinator(coordinator, section: section, itemCount: itemCount)
+        dropDelegate?.collectionTableView(self, performDropWith: coordinator)
+    }
     
 }

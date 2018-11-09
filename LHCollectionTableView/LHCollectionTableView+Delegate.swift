@@ -54,7 +54,7 @@ extension LHCollectionTableView: UITableViewDelegate {
     
 }
 
-extension LHCollectionTableView: StoryboardViewSectionCellDelegate {
+extension LHCollectionTableView: LHCollectionTableViewSectionCellDelegate {
     
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, canPerformAction action: Selector, forItemAt indexPath: IndexPath) -> Bool {
         guard let section = self.section(for: sectionCell) else { return false }

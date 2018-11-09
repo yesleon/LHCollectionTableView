@@ -15,6 +15,8 @@ open class LHCollectionTableView: UIView {
     internal var cellContentOffsets: [IndexPath : CGPoint] = [:]
     open weak var dataSource: LHCollectionTableViewDataSource?
     open weak var delegate: LHCollectionTableViewDelegate?
+    open weak var dragDelegate: LHCollectionTableViewDragDelegate?
+    open weak var dropDelegate: LHCollectionTableViewDropDelegate?
     open var headerView: UIView? {
         get {
             return tableView.tableHeaderView

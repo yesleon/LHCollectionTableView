@@ -12,7 +12,9 @@ open class LHCollectionTableViewSectionCell: UITableViewCell {
 
     @IBOutlet private weak var collectionView: UICollectionView!
     weak var dataSource: StoryboardViewSectionCellDataSource?
-    weak var delegate: StoryboardViewSectionCellDelegate?
+    weak var delegate: LHCollectionTableViewSectionCellDelegate?
+    weak var dragDelegate: LHCollectionTableViewSectionCellDragDelegate?
+    weak var dropDelegate: LHCollectionTableViewSectionCellDropDelegate?
     @IBOutlet internal weak var emptyStateView: UIView? {
         didSet {
             emptyStateView?.isHidden = collectionView.numberOfItems(inSection: 0) != 0

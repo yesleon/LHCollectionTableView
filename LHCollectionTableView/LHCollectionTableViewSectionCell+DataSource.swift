@@ -12,8 +12,6 @@ import Foundation
 protocol StoryboardViewSectionCellDataSource: AnyObject {
     func numberOfItems(for sectionCell: LHCollectionTableViewSectionCell) -> Int
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, cellForItemAt indexPath: IndexPath) -> LHCollectionTableViewCell
-    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, canMoveItemAt indexPath: IndexPath) -> Bool
-    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, moveItemAt fromIndexPath: IndexPath, toIndexPath: IndexPath)
 }
 
 

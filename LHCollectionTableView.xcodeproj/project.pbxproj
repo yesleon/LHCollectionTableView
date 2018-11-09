@@ -12,6 +12,7 @@
 		716FF0312181F719000FB60F /* LHCollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716FF02E2181F717000FB60F /* LHCollectionTableViewCell.swift */; };
 		716FF0322181F719000FB60F /* LHCollectionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716FF02F2181F718000FB60F /* LHCollectionTableView.swift */; };
 		716FF0332181F719000FB60F /* LHCollectionTableViewSectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716FF0302181F718000FB60F /* LHCollectionTableViewSectionCell.swift */; };
+		719707282195577500BA1C6E /* CollectionTableViewDropCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719707272195577500BA1C6E /* CollectionTableViewDropCoordinator.swift */; };
 		71C1C4552195371C0049CECB /* LHCollectionTableView+DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C1C4542195371C0049CECB /* LHCollectionTableView+DataSource.swift */; };
 		71C1C457219537670049CECB /* LHCollectionTableView+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C1C456219537670049CECB /* LHCollectionTableView+Delegate.swift */; };
 		71C1C459219538000049CECB /* LHCollectionTableView+Drag&Drop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C1C458219538000049CECB /* LHCollectionTableView+Drag&Drop.swift */; };
@@ -30,6 +31,7 @@
 		716FF02E2181F717000FB60F /* LHCollectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LHCollectionTableViewCell.swift; sourceTree = "<group>"; };
 		716FF02F2181F718000FB60F /* LHCollectionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LHCollectionTableView.swift; sourceTree = "<group>"; };
 		716FF0302181F718000FB60F /* LHCollectionTableViewSectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LHCollectionTableViewSectionCell.swift; sourceTree = "<group>"; };
+		719707272195577500BA1C6E /* CollectionTableViewDropCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTableViewDropCoordinator.swift; sourceTree = "<group>"; };
 		71C1C4542195371C0049CECB /* LHCollectionTableView+DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LHCollectionTableView+DataSource.swift"; sourceTree = "<group>"; };
 		71C1C456219537670049CECB /* LHCollectionTableView+Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LHCollectionTableView+Delegate.swift"; sourceTree = "<group>"; };
 		71C1C458219538000049CECB /* LHCollectionTableView+Drag&Drop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LHCollectionTableView+Drag&Drop.swift"; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				71C1C45A219538210049CECB /* LHCollectionTableViewSectionCell+DataSource.swift */,
 				71C1C45C219538280049CECB /* LHCollectionTableViewSectionCell+Delegate.swift */,
 				71C1C45E219538350049CECB /* LHCollectionTableViewSectionCell+Drag&Drop.swift */,
+				719707272195577500BA1C6E /* CollectionTableViewDropCoordinator.swift */,
 				716FF02E2181F717000FB60F /* LHCollectionTableViewCell.swift */,
 				716FF0202181F708000FB60F /* LHCollectionTableView.h */,
 				716FF0212181F708000FB60F /* Info.plist */,
@@ -181,6 +184,7 @@
 				71C1C4552195371C0049CECB /* LHCollectionTableView+DataSource.swift in Sources */,
 				71C1C457219537670049CECB /* LHCollectionTableView+Delegate.swift in Sources */,
 				71C1C45F219538350049CECB /* LHCollectionTableViewSectionCell+Drag&Drop.swift in Sources */,
+				719707282195577500BA1C6E /* CollectionTableViewDropCoordinator.swift in Sources */,
 				716FF0322181F719000FB60F /* LHCollectionTableView.swift in Sources */,
 				71C1C459219538000049CECB /* LHCollectionTableView+Drag&Drop.swift in Sources */,
 			);
