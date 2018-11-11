@@ -31,6 +31,9 @@ extension LHCollectionTableView: UITableViewDataSource {
     open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionCount = dataSource?.numberOfSections(in: self) ?? 0
         emptyStateView?.isHidden = sectionCount != 0
+        while cellIDs.count < sectionCount {
+            cellIDs.append(UUID().uuidString)
+        }
         return sectionCount
     }
     
@@ -41,7 +44,26 @@ extension LHCollectionTableView: UITableViewDataSource {
         cell.delegate = self
         cell.dragDelegate = self
         cell.dropDelegate = self
-        DispatchQueue.main.async(execute: cell.reloadData)
+        cell.numberOfItems = {
+            let section = self.section(for: cell) ?? indexPath.row
+            return self.dataSource?.collectionTableView(self, numberOfItemsInSection: section) ?? 0
+        }
+        cell.configureCellAtIndexPath = {
+            let section = self.section(for: cell) ?? indexPath.row
+            self.dataSource?.collectionTableView(self, configure: $0, forItemAt: IndexPath(item: $1.item, section: section))
+        }
+        cell.reloadData()
+        if let collapsed = cellIsCollapsed[cell.id], cell.isCollapsed != collapsed {
+            cell.isCollapsed = collapsed
+        }
+        if let offset = cellContentOffsets[cell.id] {
+            cell.contentOffset = offset
+        }
+        cell.setNeedsLayout()
+        cell.layoutIfNeeded()
+        if cell.id.isEmpty {
+            cell.id = cellIDs[indexPath.row]
+        }
         dataSource?.collectionTableView(self, configure: cell, forSection: indexPath.row)
         return cell
     }

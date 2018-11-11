@@ -12,7 +12,9 @@ import LHConvenientMethods
 open class LHCollectionTableView: UIView {
 
     @IBOutlet private weak var tableView: UITableView!
-    internal var cellContentOffsets: [IndexPath : CGPoint] = [:]
+    internal var cellContentOffsets: [String : CGPoint] = [:]
+    internal var cellIsCollapsed: [String : Bool] = [:]
+    internal var cellIDs: [String] = []
     open weak var dataSource: LHCollectionTableViewDataSource?
     open weak var delegate: LHCollectionTableViewDelegate?
     open weak var dragDelegate: LHCollectionTableViewDragDelegate?
@@ -61,6 +63,20 @@ open class LHCollectionTableView: UIView {
     
     open func reloadData() {
         tableView.reloadData()
+        cellContentOffsets.removeAll()
+        cellIsCollapsed.removeAll()
+    }
+    
+    func autoresizeRowHeight(animated: Bool) {
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 1000))
+        tableView.performBatchUpdates({
+            if !animated {
+                CATransaction.setDisableActions(true)
+            }
+        }) { _ in
+            self.tableView.tableFooterView = nil
+
+        }
     }
     
     // MARK: Section
@@ -74,19 +90,30 @@ open class LHCollectionTableView: UIView {
     }
     
     open func insertSection(at section: Int, with animation: UITableView.RowAnimation) {
+        cellIDs.insert(UUID().uuidString, at: section)
         tableView.insertRows(at: [IndexPath(row: section, section: 0)], with: animation)
     }
     
     open func moveSection(_ section: Int, toSection: Int) {
+        cellIDs.insert(cellIDs.remove(at: section), at: toSection)
         tableView.moveRow(at: IndexPath(row: section, section: 0), to: IndexPath(row: toSection, section: 0))
     }
     
     open func deleteSection(_ section: Int, with animation: UITableView.RowAnimation) {
+        cellIDs.remove(at: section)
         tableView.deleteRows(at: [IndexPath(row: section, section: 0)], with: animation)
     }
     
     open func scrollToSection(_ section: Int, animated: Bool) {
         tableView.scrollToRow(at: IndexPath(row: section, section: 0), at: .none, animated: animated)
+    }
+    
+    open func setSectionCollapsed(_ collapsed: Bool, atSection section: Int) {
+        guard let sectionCell = sectionCell(at: section) else { return }
+        if sectionCell.isCollapsed != collapsed {
+            sectionCell.isCollapsed = collapsed
+            autoresizeRowHeight(animated: true)
+        }
     }
     
     // MARK: Item
@@ -121,6 +148,7 @@ open class LHCollectionTableView: UIView {
     open func insertItem(at indexPath: IndexPath) {
         guard let sectionCell = self.sectionCell(at: indexPath.section) else { return }
         sectionCell.insertItems(at: [IndexPath(item: indexPath.item, section: 0)])
+        autoresizeRowHeight(animated: true)
     }
     
     open func moveItem(at sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -132,12 +160,14 @@ open class LHCollectionTableView: UIView {
         } else {
             sourceSectionCell?.deleteItems(at: [IndexPath(item: sourceIndexPath.item, section: 0)])
             destinationSectionCell?.insertItems(at: [IndexPath(item: destinationIndexPath.item, section: 0)])
+            autoresizeRowHeight(animated: true)
         }
     }
     
     open func deleteItem(at indexPath: IndexPath) {
         guard let sectionCell = self.sectionCell(at: indexPath.section) else { return }
         sectionCell.deleteItems(at: [IndexPath(item: indexPath.item, section: 0)])
+        autoresizeRowHeight(animated: true)
     }
     
     open func scrollToItem(at indexPath: IndexPath, animated: Bool) {

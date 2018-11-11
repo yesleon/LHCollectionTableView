@@ -29,15 +29,20 @@ public extension LHCollectionTableViewDelegate {
 extension LHCollectionTableView: UITableViewDelegate {
     
     open func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if let cell = cell as? LHCollectionTableViewSectionCell, let offset = cellContentOffsets[indexPath] {
-            cell.contentOffset = offset
-        }
+        
     }
     
     open func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let cell = cell as? LHCollectionTableViewSectionCell {
-            cellContentOffsets[indexPath] = cell.contentOffset
+            cellContentOffsets[cell.id] = cell.contentOffset
+            cellIsCollapsed[cell.id] = cell.isCollapsed
         }
+    }
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let sectionCell = sectionCell(at: indexPath.row) else { return }
+        sectionCell.isCollapsed.toggle()
+        autoresizeRowHeight(animated: false)
     }
     
     open func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		71235E8221980236005030A1 /* LHCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71235E8121980236005030A1 /* LHCollectionView.swift */; };
 		713047C8219099E80066F7B1 /* LHConvenientMethods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713047C7219099E80066F7B1 /* LHConvenientMethods.framework */; };
 		716FF0222181F708000FB60F /* LHCollectionTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 716FF0202181F708000FB60F /* LHCollectionTableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		716FF0312181F719000FB60F /* LHCollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716FF02E2181F717000FB60F /* LHCollectionTableViewCell.swift */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		710F8D0F218305AF00E4C022 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		71235E8121980236005030A1 /* LHCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LHCollectionView.swift; sourceTree = "<group>"; };
 		713047C7219099E80066F7B1 /* LHConvenientMethods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LHConvenientMethods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		713B0E72219439DD001B7025 /* LHColorSet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LHColorSet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		716FF01D2181F708000FB60F /* LHCollectionTableView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LHCollectionTableView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,7 @@
 				71C1C458219538000049CECB /* LHCollectionTableView+Drag&Drop.swift */,
 				716FF0302181F718000FB60F /* LHCollectionTableViewSectionCell.swift */,
 				71C1C45A219538210049CECB /* LHCollectionTableViewSectionCell+DataSource.swift */,
+				71235E8121980236005030A1 /* LHCollectionView.swift */,
 				71C1C45C219538280049CECB /* LHCollectionTableViewSectionCell+Delegate.swift */,
 				71C1C45E219538350049CECB /* LHCollectionTableViewSectionCell+Drag&Drop.swift */,
 				719707272195577500BA1C6E /* CollectionTableViewDropCoordinator.swift */,
@@ -179,6 +182,7 @@
 			files = (
 				71C1C45D219538280049CECB /* LHCollectionTableViewSectionCell+Delegate.swift in Sources */,
 				71C1C45B219538210049CECB /* LHCollectionTableViewSectionCell+DataSource.swift in Sources */,
+				71235E8221980236005030A1 /* LHCollectionView.swift in Sources */,
 				716FF0332181F719000FB60F /* LHCollectionTableViewSectionCell.swift in Sources */,
 				716FF0312181F719000FB60F /* LHCollectionTableViewCell.swift in Sources */,
 				71C1C4552195371C0049CECB /* LHCollectionTableView+DataSource.swift in Sources */,
