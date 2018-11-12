@@ -92,8 +92,11 @@ open class LHCollectionTableViewSectionCell: UITableViewCell {
         collectionView.deleteItems(at: indexPaths)
     }
     
-    func scrollToItem(at indexPath: IndexPath, animated: Bool) {
-        collectionView.scrollToItem(at: indexPath, at: [.centeredHorizontally, .centeredVertically], animated: animated)
+    func scrollToItem(at indexPath: IndexPath, animated: Bool, completion: ((Bool) -> Void)?) {
+        collectionView.performBatchUpdates({
+            self.collectionView.scrollToItem(at: indexPath, at: [.centeredHorizontally, .centeredVertically], animated: animated)
+        }, completion: completion)
+        
     }
     
     func dequeueReusableCell(withReuseIdentifier identifier: String, for indexPath: IndexPath) -> LHCollectionTableViewCell {

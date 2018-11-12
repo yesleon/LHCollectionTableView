@@ -163,10 +163,18 @@ open class LHCollectionTableView: UIView {
         autoresizeRowHeight(animated: true)
     }
     
-    open func scrollToItem(at indexPath: IndexPath, animated: Bool) {
-        scrollToSection(indexPath.section, animated: false)
-        guard let sectionCell = self.sectionCell(at: indexPath.section) else { return }
-        sectionCell.scrollToItem(at: IndexPath(item: indexPath.item, section: 0), animated: animated)
+    open func scrollToItem(at indexPath: IndexPath, animated: Bool, completion: ((Bool) -> Void)? = nil) {
+        tableView.performBatchUpdates({
+            self.tableView.scrollToRow(at: IndexPath(row: indexPath.section, section: 0), at: .none, animated: animated)
+            
+        }) { (success) in
+            if success {
+                guard let sectionCell = self.sectionCell(at: indexPath.section) else { return }
+                sectionCell.scrollToItem(at: IndexPath(item: indexPath.item, section: 0), animated: animated, completion: completion)
+            } else {
+                completion?(false)
+            }
+        }
     }
 
 }
