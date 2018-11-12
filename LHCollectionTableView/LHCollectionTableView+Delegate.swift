@@ -39,12 +39,6 @@ extension LHCollectionTableView: UITableViewDelegate {
         }
     }
     
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let sectionCell = sectionCell(at: indexPath.row) else { return }
-        sectionCell.isCollapsed.toggle()
-        autoresizeRowHeight(animated: false)
-    }
-    
     open func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -60,6 +54,10 @@ extension LHCollectionTableView: UITableViewDelegate {
 }
 
 extension LHCollectionTableView: LHCollectionTableViewSectionCellDelegate {
+    
+    func sectionCellDidToggleCollapsed(_ sectionCell: LHCollectionTableViewSectionCell) {
+        autoresizeRowHeight(animated: false)
+    }
     
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, canPerformAction action: Selector, forItemAt indexPath: IndexPath) -> Bool {
         guard let section = self.section(for: sectionCell) else { return false }

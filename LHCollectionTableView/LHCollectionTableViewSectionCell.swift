@@ -46,6 +46,7 @@ open class LHCollectionTableViewSectionCell: UITableViewCell {
             if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
                 collectionView.isScrollEnabled = newValue
                 flowLayout.scrollDirection = newValue ? .horizontal : .vertical
+                delegate?.sectionCellDidToggleCollapsed(self)
             }
         }
     }

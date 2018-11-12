@@ -14,6 +14,17 @@ class LHCollectionViewFlowLayout: UICollectionViewFlowLayout {
         return collectionView?.delegate as? UICollectionViewDelegateFlowLayout
     }
     
+    override var collectionViewContentSize: CGSize {
+        var size = super.collectionViewContentSize
+        switch scrollDirection {
+        case .horizontal:
+            size.width += itemSize.width + minimumLineSpacing
+        case .vertical:
+            size.height += itemSize.height + minimumLineSpacing
+        }
+        return size
+    }
+    
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         guard let attributes = super.layoutAttributesForElements(in: rect) else { return nil }
         

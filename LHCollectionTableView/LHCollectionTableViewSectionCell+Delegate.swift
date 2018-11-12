@@ -12,6 +12,7 @@ import Foundation
 protocol LHCollectionTableViewSectionCellDelegate: AnyObject {
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, canPerformAction action: Selector, forItemAt indexPath: IndexPath) -> Bool
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, performAction action: Selector, forItemAt indexPath: IndexPath)
+    func sectionCellDidToggleCollapsed(_ sectionCell: LHCollectionTableViewSectionCell)
 }
 
 

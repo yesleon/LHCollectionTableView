@@ -68,13 +68,14 @@ open class LHCollectionTableView: UIView {
     }
     
     func autoresizeRowHeight(animated: Bool) {
+        let view = tableView.tableFooterView
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 1000))
         tableView.performBatchUpdates({
             if !animated {
                 CATransaction.setDisableActions(true)
             }
         }) { _ in
-            self.tableView.tableFooterView = nil
+            self.tableView.tableFooterView = view
 
         }
     }
@@ -106,14 +107,6 @@ open class LHCollectionTableView: UIView {
     
     open func scrollToSection(_ section: Int, animated: Bool) {
         tableView.scrollToRow(at: IndexPath(row: section, section: 0), at: .none, animated: animated)
-    }
-    
-    open func setSectionCollapsed(_ collapsed: Bool, atSection section: Int) {
-        guard let sectionCell = sectionCell(at: section) else { return }
-        if sectionCell.isCollapsed != collapsed {
-            sectionCell.isCollapsed = collapsed
-            autoresizeRowHeight(animated: true)
-        }
     }
     
     // MARK: Item
