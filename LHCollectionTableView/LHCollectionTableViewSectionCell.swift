@@ -34,7 +34,7 @@ open class LHCollectionTableViewSectionCell: UITableViewCell {
         }
     }
     
-    var isCollapsed: Bool {
+    open var isCollapsed: Bool {
         get {
             if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
                 return flowLayout.scrollDirection == .horizontal
@@ -44,14 +44,8 @@ open class LHCollectionTableViewSectionCell: UITableViewCell {
         }
         set {
             if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-                let newLayout = UICollectionViewFlowLayout()
-                newLayout.itemSize = flowLayout.itemSize
-                newLayout.minimumInteritemSpacing = flowLayout.minimumInteritemSpacing
-                newLayout.minimumLineSpacing = flowLayout.minimumLineSpacing
-                newLayout.sectionInset = flowLayout.sectionInset
-                newLayout.scrollDirection = newValue ? .horizontal : .vertical
                 collectionView.isScrollEnabled = newValue
-                collectionView.setCollectionViewLayout(newLayout, animated: false)
+                flowLayout.scrollDirection = newValue ? .horizontal : .vertical
             }
         }
     }
