@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import LHConvenientMethods
 
 
 public protocol LHCollectionTableViewDelegate: AnyObject {
@@ -52,9 +53,8 @@ extension LHCollectionTableView: UITableViewDelegate {
     }
     
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        if let handler = didScrollHandler {
+        if let handler = didScrollHandler.remove() {
             DispatchQueue.main.asyncAfter(deadline: .now()+0.1, execute: handler)
-            didScrollHandler = nil
         }
     }
     
