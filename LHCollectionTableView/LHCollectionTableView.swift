@@ -28,22 +28,7 @@ open class LHCollectionTableView: UIView {
     open weak var delegate: LHCollectionTableViewDelegate?
     open weak var dragDelegate: LHCollectionTableViewDragDelegate?
     open weak var dropDelegate: LHCollectionTableViewDropDelegate?
-    open var headerView: UIView? {
-        get {
-            return tableView.tableHeaderView
-        }
-        set {
-            tableView.tableHeaderView = newValue
-        }
-    }
-    open var footerView: UIView? {
-        get {
-            return tableView.tableFooterView
-        }
-        set {
-            tableView.tableFooterView = newValue
-        }
-    }
+    @IBOutlet private var tableFooterView: UIView!
     open var emptyStateView: UIView? {
         didSet {
             if let emptyStateView = emptyStateView {
@@ -75,7 +60,7 @@ open class LHCollectionTableView: UIView {
                 CATransaction.setDisableActions(true)
             }
         }) { _ in
-            self.tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+            self.tableView.tableFooterView = self.tableFooterView
 
         }
     }
