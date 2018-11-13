@@ -51,11 +51,19 @@ extension LHCollectionTableView: UITableViewDelegate {
         delegate?.collectionTableView(self, performAction: action, forSection: indexPath.row)
     }
     
+    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        if let handler = didScrollHandler {
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.1, execute: handler)
+            didScrollHandler = nil
+        }
+    }
+    
 }
 
 extension LHCollectionTableView: LHCollectionTableViewSectionCellDelegate {
     
     func sectionCellDidToggleCollapsed(_ sectionCell: LHCollectionTableViewSectionCell) {
+        cellIsCollapsed[sectionCell.id] = sectionCell.isCollapsed
         autoresizeRowHeight(animated: false)
     }
     

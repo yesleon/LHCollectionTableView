@@ -8,17 +8,9 @@
 
 import Foundation
 
-
-protocol StoryboardViewSectionCellDataSource: AnyObject {
-//    func numberOfItems(for sectionCell: LHCollectionTableViewSectionCell) -> Int
-//    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, cellForItemAt indexPath: IndexPath) -> LHCollectionTableViewCell
-}
-
-
 extension LHCollectionTableViewSectionCell: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        let itemCount = dataSource?.numberOfItems(for: self) ?? 0
         let itemCount = numberOfItems()
         emptyStateView?.isHidden = itemCount != 0
         return itemCount
@@ -27,7 +19,6 @@ extension LHCollectionTableViewSectionCell: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Shot Cell", for: indexPath) as! LHCollectionTableViewCell
         configureCellAtIndexPath(cell, indexPath)
-//        return dataSource!.sectionCell(self, cellForItemAt: indexPath)
         return cell
     }
     

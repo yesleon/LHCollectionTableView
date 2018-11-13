@@ -11,7 +11,6 @@ import UIKit
 open class LHCollectionTableViewSectionCell: UITableViewCell {
 
     @IBOutlet private weak var collectionView: UICollectionView!
-    weak var dataSource: StoryboardViewSectionCellDataSource?
     weak var delegate: LHCollectionTableViewSectionCellDelegate?
     weak var dragDelegate: LHCollectionTableViewSectionCellDragDelegate?
     weak var dropDelegate: LHCollectionTableViewSectionCellDropDelegate?
@@ -92,11 +91,22 @@ open class LHCollectionTableViewSectionCell: UITableViewCell {
         collectionView.deleteItems(at: indexPaths)
     }
     
-    func scrollToItem(at indexPath: IndexPath, animated: Bool, completion: ((Bool) -> Void)?) {
+    func scrollToItem(at indexPath: IndexPath, animated: Bool, completion: (() -> Void)?) {
         collectionView.performBatchUpdates({
             self.collectionView.scrollToItem(at: indexPath, at: [.centeredHorizontally, .centeredVertically], animated: animated)
-        }, completion: completion)
+            if let completion = completion {
+                CATransaction.setCompletionBlock {
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.4, execute: completion)
+                }
+            }
+        })
         
+    }
+    
+    func rectForItem(at indexPath: IndexPath) -> CGRect? {
+        guard let attributes = collectionView.layoutAttributesForItem(at: indexPath) else { return nil }
+        let frame = collectionView.convert(attributes.frame, to: self)
+        return frame
     }
     
     func dequeueReusableCell(withReuseIdentifier identifier: String, for indexPath: IndexPath) -> LHCollectionTableViewCell {

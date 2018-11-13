@@ -14,6 +14,8 @@ public typealias LHCollectionTableViewDropCoordinator = UICollectionViewDropCoor
 protocol LHCollectionTableViewSectionCellDragDelegate: AnyObject {
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem]
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters?
+    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, dragSessionWillBegin session: UIDragSession)
+    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, dragSessionDidEnd session: UIDragSession)
 }
 
 protocol LHCollectionTableViewSectionCellDropDelegate: AnyObject {
@@ -29,6 +31,14 @@ extension LHCollectionTableViewSectionCell: UICollectionViewDragDelegate {
     
     public func collectionView(_ collectionView: UICollectionView, dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters? {
         return dragDelegate?.sectionCell(self, dragPreviewParametersForItemAt: indexPath)
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, dragSessionWillBegin session: UIDragSession) {
+        dragDelegate?.sectionCell(self, dragSessionWillBegin: session)
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, dragSessionDidEnd session: UIDragSession) {
+        dragDelegate?.sectionCell(self, dragSessionDidEnd: session)
     }
     
 }

@@ -40,7 +40,6 @@ extension LHCollectionTableView: UITableViewDataSource {
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Scene Cell", for: indexPath) as! LHCollectionTableViewSectionCell
         
-        cell.dataSource = self
         cell.delegate = self
         cell.dragDelegate = self
         cell.dropDelegate = self
@@ -53,6 +52,9 @@ extension LHCollectionTableView: UITableViewDataSource {
             self.dataSource?.collectionTableView(self, configure: $0, forItemAt: IndexPath(item: $1.item, section: section))
         }
         cell.reloadData()
+        if cell.id.isEmpty {
+            cell.id = cellIDs[indexPath.row]
+        }
         if let collapsed = cellIsCollapsed[cell.id], cell.isCollapsed != collapsed {
             cell.isCollapsed = collapsed
         }
@@ -61,9 +63,6 @@ extension LHCollectionTableView: UITableViewDataSource {
         }
         cell.setNeedsLayout()
         cell.layoutIfNeeded()
-        if cell.id.isEmpty {
-            cell.id = cellIDs[indexPath.row]
-        }
         dataSource?.collectionTableView(self, configure: cell, forSection: indexPath.row)
         return cell
     }
@@ -75,24 +74,4 @@ extension LHCollectionTableView: UITableViewDataSource {
     open func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         dataSource?.collectionTableView(self, moveSection: sourceIndexPath.row, toSection: destinationIndexPath.row)
     }
-}
-
-
-// MARK: - LHCollectionTableViewSectionCell
-
-extension LHCollectionTableView: StoryboardViewSectionCellDataSource {
-    
-    func numberOfItems(for sectionCell: LHCollectionTableViewSectionCell) -> Int {
-        guard let section = self.section(for: sectionCell) else { return 0 }
-        return dataSource?.collectionTableView(self, numberOfItemsInSection: section) ?? 0
-    }
-    
-    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, cellForItemAt indexPath: IndexPath) -> LHCollectionTableViewCell {
-        let cell = sectionCell.dequeueReusableCell(withReuseIdentifier: "Shot Cell", for: indexPath)
-        if let section = self.section(for: sectionCell) {
-            dataSource?.collectionTableView(self, configure: cell, forItemAt: IndexPath(item: indexPath.item, section: section))
-        }
-        return cell
-    }
-    
 }

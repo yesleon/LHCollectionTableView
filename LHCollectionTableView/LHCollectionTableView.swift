@@ -47,6 +47,8 @@ open class LHCollectionTableView: UIView {
         }
     }
     
+    var didScrollHandler: (() -> Void)?
+    
     override open func awakeFromNib() {
         super.awakeFromNib()
         tableView.dataSource = self
@@ -68,14 +70,13 @@ open class LHCollectionTableView: UIView {
     }
     
     func autoresizeRowHeight(animated: Bool) {
-        let view = tableView.tableFooterView
-        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 1000))
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 100000))
         tableView.performBatchUpdates({
             if !animated {
                 CATransaction.setDisableActions(true)
             }
         }) { _ in
-            self.tableView.tableFooterView = view
+            self.tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
 
         }
     }
@@ -141,7 +142,7 @@ open class LHCollectionTableView: UIView {
     open func insertItem(at indexPath: IndexPath) {
         guard let sectionCell = self.sectionCell(at: indexPath.section) else { return }
         sectionCell.insertItems(at: [IndexPath(item: indexPath.item, section: 0)])
-        autoresizeRowHeight(animated: true)
+        autoresizeRowHeight(animated: false)
     }
     
     open func moveItem(at sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -153,28 +154,32 @@ open class LHCollectionTableView: UIView {
         } else {
             sourceSectionCell?.deleteItems(at: [IndexPath(item: sourceIndexPath.item, section: 0)])
             destinationSectionCell?.insertItems(at: [IndexPath(item: destinationIndexPath.item, section: 0)])
-            autoresizeRowHeight(animated: true)
+            autoresizeRowHeight(animated: false)
         }
     }
     
     open func deleteItem(at indexPath: IndexPath) {
         guard let sectionCell = self.sectionCell(at: indexPath.section) else { return }
         sectionCell.deleteItems(at: [IndexPath(item: indexPath.item, section: 0)])
-        autoresizeRowHeight(animated: true)
+        autoresizeRowHeight(animated: false)
     }
     
-    open func scrollToItem(at indexPath: IndexPath, animated: Bool, completion: ((Bool) -> Void)? = nil) {
+    open func scrollToItem(at indexPath: IndexPath, animated: Bool, completion: (() -> Void)? = nil) {
         tableView.performBatchUpdates({
             self.tableView.scrollToRow(at: IndexPath(row: indexPath.section, section: 0), at: .none, animated: animated)
-            
-        }) { (success) in
-            if success {
+            CATransaction.setCompletionBlock {
                 guard let sectionCell = self.sectionCell(at: indexPath.section) else { return }
-                sectionCell.scrollToItem(at: IndexPath(item: indexPath.item, section: 0), animated: animated, completion: completion)
-            } else {
-                completion?(false)
+                let itemIndexPath = IndexPath(item: indexPath.item, section: 0)
+                if sectionCell.isCollapsed {
+                    sectionCell.scrollToItem(at: itemIndexPath, animated: animated, completion: completion)
+                } else {
+                    guard var itemFrame = sectionCell.rectForItem(at: itemIndexPath) else { return }
+                    itemFrame = sectionCell.convert(itemFrame, to: self.tableView)
+                    self.tableView.scrollRectToVisible(itemFrame, animated: true)
+                    self.didScrollHandler = completion
+                }
             }
-        }
+        })
     }
 
 }

@@ -11,6 +11,8 @@ import Foundation
 public protocol LHCollectionTableViewDragDelegate: AnyObject {
     func collectionTableView(_ collectionTableView: LHCollectionTableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem]
     func collectionTableView(_ collectionTableView: LHCollectionTableView, dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters?
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, dragSessionWillBegin session: UIDragSession)
+    func collectionTableView(_ collectionTableView: LHCollectionTableView, dragSessionDidEnd session: UIDragSession)
 }
 
 public protocol LHCollectionTableViewDropDelegate: AnyObject {
@@ -41,6 +43,14 @@ extension LHCollectionTableView: UITableViewDropDelegate {
 }
 
 extension LHCollectionTableView: LHCollectionTableViewSectionCellDragDelegate {
+    
+    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, dragSessionWillBegin session: UIDragSession) {
+        dragDelegate?.collectionTableView(self, dragSessionWillBegin: session)
+    }
+    
+    func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, dragSessionDidEnd session: UIDragSession) {
+        dragDelegate?.collectionTableView(self, dragSessionDidEnd: session)
+    }
     
     func sectionCell(_ sectionCell: LHCollectionTableViewSectionCell, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         guard let section = self.section(for: sectionCell) else { return [] }
