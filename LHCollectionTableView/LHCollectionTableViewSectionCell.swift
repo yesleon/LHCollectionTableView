@@ -10,7 +10,15 @@ import UIKit
 
 open class LHCollectionTableViewSectionCell: UITableViewCell {
 
-    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var collectionView: UICollectionView! {
+        willSet {
+            newValue.dataSource = self
+            newValue.delegate = self
+            newValue.dragDelegate = self
+            newValue.dropDelegate = self
+            newValue.dragInteractionEnabled = true
+        }
+    }
     weak var delegate: LHCollectionTableViewSectionCellDelegate?
     weak var dragDelegate: LHCollectionTableViewSectionCellDragDelegate?
     weak var dropDelegate: LHCollectionTableViewSectionCellDropDelegate?
@@ -48,15 +56,6 @@ open class LHCollectionTableViewSectionCell: UITableViewCell {
                 delegate?.sectionCellDidToggleCollapsed(self)
             }
         }
-    }
-    
-    open override func awakeFromNib() {
-        super.awakeFromNib()
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.dragDelegate = self
-        collectionView.dropDelegate = self
-        collectionView.dragInteractionEnabled = true
     }
     
     func reloadData() {

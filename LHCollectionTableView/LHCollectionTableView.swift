@@ -11,7 +11,16 @@ import LHConvenientMethods
 
 open class LHCollectionTableView: UIView {
 
-    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView! {
+        willSet {
+            newValue.dataSource = self
+            newValue.delegate = self
+            newValue.dragDelegate = self
+            newValue.dropDelegate = self
+            newValue.dragInteractionEnabled = true
+            newValue.setHandlesKeyboard(true)
+        }
+    }
     internal var cellContentOffsets: [String : CGPoint] = [:]
     internal var cellIsCollapsed: [String : Bool] = [:]
     internal var cellIDs: [String] = []
@@ -48,16 +57,6 @@ open class LHCollectionTableView: UIView {
     }
     
     var didScrollHandler: (() -> Void)?
-    
-    override open func awakeFromNib() {
-        super.awakeFromNib()
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.dragDelegate = self
-        tableView.dropDelegate = self
-        tableView.dragInteractionEnabled = true
-        tableView.setHandlesKeyboard(true)
-    }
     
     deinit {
         tableView.setHandlesKeyboard(false)
