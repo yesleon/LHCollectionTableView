@@ -13,7 +13,11 @@ class LHCollectionView: UICollectionView {
 
     override var intrinsicContentSize: CGSize {
         if isScrollEnabled {
-            return CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric)
+            if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
+                return CGSize(width: UIView.noIntrinsicMetric, height: layout.itemSize.height + layout.sectionInset.top + layout.sectionInset.bottom)
+            } else {
+                return CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric)
+            }
         } else {
             return collectionViewLayout.collectionViewContentSize
         }
@@ -22,12 +26,6 @@ class LHCollectionView: UICollectionView {
     override func layoutSubviews() {
         super.layoutSubviews()
         invalidateIntrinsicContentSize()
-    }
-    
-    override var isScrollEnabled: Bool {
-        didSet {
-            invalidateIntrinsicContentSize()
-        }
     }
 
 }
