@@ -41,6 +41,12 @@ open class LHCollectionTableView: UIView {
         }
     }
     
+    open override var bounds: CGRect {
+        didSet {
+            autoresizeRowHeight(animated: false)
+        }
+    }
+    
     var didScrollHandler: (() -> Void)?
     
     deinit {

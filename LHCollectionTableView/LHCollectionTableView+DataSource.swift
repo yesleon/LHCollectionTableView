@@ -43,13 +43,18 @@ extension LHCollectionTableView: UITableViewDataSource {
         cell.delegate = self
         cell.dragDelegate = self
         cell.dropDelegate = self
-        cell.numberOfItems = {
-            let section = self.section(for: cell) ?? indexPath.row
-            return self.dataSource?.collectionTableView(self, numberOfItemsInSection: section) ?? 0
+        weak var weakCell = cell
+        cell.numberOfItems = { [weak self] in
+            guard let weakSelf = self else { return 0 }
+            guard let cell = weakCell else { return 0 }
+            let section = weakSelf.section(for: cell) ?? indexPath.row
+            return weakSelf.dataSource?.collectionTableView(weakSelf, numberOfItemsInSection: section) ?? 0
         }
-        cell.configureCellAtIndexPath = {
-            let section = self.section(for: cell) ?? indexPath.row
-            self.dataSource?.collectionTableView(self, configure: $0, forItemAt: IndexPath(item: $1.item, section: section))
+        cell.configureCellAtIndexPath = { [weak self] in
+            guard let weakSelf = self else { return }
+            guard let cell = weakCell else { return }
+            let section = weakSelf.section(for: cell) ?? indexPath.row
+            weakSelf.dataSource?.collectionTableView(weakSelf, configure: $0, forItemAt: IndexPath(item: $1.item, section: section))
         }
         cell.reloadData()
         if cell.id.isEmpty {

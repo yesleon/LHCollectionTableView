@@ -91,8 +91,8 @@ open class LHCollectionTableViewSectionCell: UITableViewCell {
     }
     
     func scrollToItem(at indexPath: IndexPath, animated: Bool, completion: (() -> Void)?) {
-        collectionView.performBatchUpdates({
-            self.collectionView.scrollToItem(at: indexPath, at: [.centeredHorizontally, .centeredVertically], animated: animated)
+        collectionView.performBatchUpdates({ [weak self] in
+            self?.collectionView.scrollToItem(at: indexPath, at: [.centeredHorizontally, .centeredVertically], animated: animated)
             if let completion = completion {
                 CATransaction.setCompletionBlock {
                     DispatchQueue.main.asyncAfter(deadline: .now()+0.4, execute: completion)
